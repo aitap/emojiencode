@@ -34,3 +34,4 @@ while (<STDIN>) {
 	$state += $add;
 }
 print join '', map { $dest[$_] } reverse @{$state}[1..$#$state];
+print "\n" if $ARGV[1];
