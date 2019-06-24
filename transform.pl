@@ -27,11 +27,15 @@ if ($ARGV[1]) {
 local $/ = \1;
 
 my $sbase = scalar keys %src;
-my $state = Numbase::->new(scalar @dest);
+# encode as if the file starts with a non-zero byte
+# (otherwise leading zero bytes would be ignored)
+my $state = Numbase::->new(scalar @dest, $ARGV[1] ? (1) : ());
 while (<STDIN>) {
 	my $add = $src{$_} // next;
 	$state *= $sbase;
 	$state += $add;
 }
+# drop the fake first byte when decoding
+$#$state-- unless $ARGV[1];
 print join '', map { $dest[$_] } reverse @{$state}[1..$#$state];
 print "\n" if $ARGV[1];
