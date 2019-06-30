@@ -11,6 +11,8 @@ Input stream is considered to be a giant base-`n` big-endian number with each by
  * target representation of the base-`k` number has to be stored in memory
  * the whole algorithm as implemented seems to be `O(N²)`, since the target representation is multiplied (in `O(N)`) by source number base once per each input digit (which there is `O(N)` of).
 
+TODO: perhaps it could be made slightly faster by restarting the output after a small number of bytes (256?)
+
 What does it look like?
 =======================
 
