@@ -1,4 +1,6 @@
+#include <fstream>
 #include <iostream>
+#include <string>
 #include <type_traits>
 #include <unordered_map>
 
@@ -27,4 +29,33 @@ void decode(const std::unordered_map<wchar_t, uint32_t> & map) {
 	}
 	for (size_t i = 2; i <= state.digits.size(); ++i)
 		if (!std::cout.put((char)state.digits[state.digits.size() - i])) return;
+}
+
+int main(int argc, char ** argv) {
+	if (!std::setlocale(LC_ALL, "")) {
+		std::cerr << "Failed to set locale" << std::endl;
+		return -4;
+	}
+
+	if (argc != 2) {
+		std::cerr << "Usage: <-e|-d> <chars.txt>" << std::endl;
+		return -1;
+	}
+
+	std::wifstream dict(argv[2]);
+	if (!dict) {
+		std::cerr << "Couldn't open " << argv[2] << std::endl;
+		return -3;
+	}
+
+	wchar_t wc;
+	uint32_t i = 0;
+
+	if (std::string(argv[1]) == "-e") {
+		std::unordered_map<wchar_t, uint32_t> map;
+	} else if (std::string(argv[1]) == "-d") {
+	} else {
+		std::cerr << "argv[1] must be '-e' or '-d'" << std::endl;
+		return -2;
+	}
 }
