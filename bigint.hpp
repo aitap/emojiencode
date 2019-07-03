@@ -20,19 +20,20 @@ struct bigint {
 	}
 
 	template <typename V>
-	bigint & operator += (V add) {
+	bigint & operator += (V add_) {
 		static_assert(std::is_unsigned<V>::value, "Summand must be of unsigned integer type");
-		T carry = 0;
-		for (size_t i = 0; add || carry; ++i) {
+		typename std::common_type<T, V>::type add = add_;
+		for (size_t i = 0; add; ++i) {
 			if (i >= digits.size()) digits.resize(i+1, 0);
 
+
 			// add the current digit
-			digits[i] += add % base + carry;
+			typename std::common_type<T, V>::type dig = digits[i] + add % base;
 			add /= base;
 
 			// set the carry for the next digit
-			carry = digits[i] / base;
-			digits[i] %= base;
+			add += dig / base;
+			digits[i] = dig % base;
 		}
 		return *this;
 	}
@@ -42,17 +43,18 @@ struct bigint {
 		static_assert(std::is_unsigned<V>::value, "Multiplier must be of unsigned integer type");
 		bigint<T,U> ret(base, 0u);
 		for (size_t i = 0; i < digits.size(); ++i) {
-			V add = mul * digits[i], carry = 0;
-			for (size_t j = i; add || carry; j++) {
+			typename std::common_type<T, V>::type add = mul * digits[i];
+			for (size_t j = i; add; j++) {
 				if (j >= ret.digits.size()) ret.digits.resize(j+1, 0);
 
 				// add to the current digit
-				ret.digits[j] += add % base + carry;
+				typename std::common_type<T, V>::type dig = ret.digits[j] + add % base;
 				add /= base;
 
 				// set the carry for the next digit
-				carry = ret.digits[j] / base;
-				ret.digits[j] %= base;
+				add += dig / base;
+
+				ret.digits[j] = dig % base;
 			}
 		}
 		return *this = ret;

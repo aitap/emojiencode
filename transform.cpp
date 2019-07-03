@@ -59,7 +59,6 @@ int main(int argc, char ** argv) {
 		}
 		encode(map);
 	} else if (std::string(argv[1]) == "-d") {
-		std::wcin.imbue(std::locale(""));
 		std::unordered_map<wchar_t, uint32_t> map;
 		{
 			uint32_t i = 0;
@@ -67,6 +66,7 @@ int main(int argc, char ** argv) {
 			while (dict.get(ch))
 				map.insert({ch, i++});
 		}
+		std::wcin.imbue(std::locale(""));
 		decode(map);
 	} else {
 		std::cerr << "argv[1] must be '-e' or '-d'" << std::endl;
