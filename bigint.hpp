@@ -42,7 +42,7 @@ struct bigint {
 		static_assert(std::is_unsigned<V>::value, "Multiplier must be of unsigned integer type");
 		bigint<T,U> ret(base, 0u);
 		for (size_t i = 0; i < digits.size(); ++i) {
-			T add = mul * digits[i], carry = 0;
+			V add = mul * digits[i], carry = 0;
 			for (size_t j = i; add || carry; j++) {
 				if (j >= ret.digits.size()) ret.digits.resize(j+1, 0);
 
@@ -51,7 +51,7 @@ struct bigint {
 				add /= base;
 
 				// set the carry for the next digit
-				carry = digits[j] / base;
+				carry = ret.digits[j] / base;
 				ret.digits[j] %= base;
 			}
 		}

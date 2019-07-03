@@ -37,7 +37,7 @@ int main(int argc, char ** argv) {
 		return -4;
 	}
 
-	if (argc != 2) {
+	if (argc != 3) {
 		std::cerr << "Usage: <-e|-d> <chars.txt>" << std::endl;
 		return -1;
 	}
@@ -47,13 +47,27 @@ int main(int argc, char ** argv) {
 		std::cerr << "Couldn't open " << argv[2] << std::endl;
 		return -3;
 	}
-
-	wchar_t wc;
-	uint32_t i = 0;
+	dict.imbue(std::locale(""));
 
 	if (std::string(argv[1]) == "-e") {
-		std::unordered_map<wchar_t, uint32_t> map;
+		std::unordered_map<uint32_t, wchar_t> map;
+		{
+			uint32_t i = 0;
+			wchar_t ch;
+			while (dict.get(ch))
+				map.insert({i++, ch});
+		}
+		encode(map);
 	} else if (std::string(argv[1]) == "-d") {
+		std::wcin.imbue(std::locale(""));
+		std::unordered_map<wchar_t, uint32_t> map;
+		{
+			uint32_t i = 0;
+			wchar_t ch;
+			while (dict.get(ch))
+				map.insert({ch, i++});
+		}
+		decode(map);
 	} else {
 		std::cerr << "argv[1] must be '-e' or '-d'" << std::endl;
 		return -2;
