@@ -1,7 +1,7 @@
 What is this?
 =============
 
-Another way to encode abritrary bytes into emoji and back, inspired by [base-emoji](https://github.com/pfrazee/base-emoji) and [base64-emoji](https://github.com/watson/base64-emoji). Previous work on this topic uses an alphabet of fixed, round (in base-2) number of emojis. This work attempts to use an arbitrary set of Unicode characters (e.g. all 1311 code points having `Emoji` property or 1093 code points with `Emoji_Presentation` set), without hard-coding the alphabet or making assumptions about its size.
+Another way to encode arbitrary bytes into emoji and back, inspired by [base-emoji](https://github.com/pfrazee/base-emoji) and [base64-emoji](https://github.com/watson/base64-emoji). Previous work on this topic uses an alphabet of fixed, round (in base-2) number of emojis. This work attempts to use an arbitrary set of Unicode characters (e.g. all 1311 code points having `Emoji` property or 1093 code points with `Emoji_Presentation` set), without hard-coding the alphabet or making assumptions about its size.
 
 How does it work?
 =================
